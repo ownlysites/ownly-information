@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ownly Information | AI-Assisted Credit Report Action Planner</title>
+  <style>
+    :root {
+      --bg: #07111f;
+      --bg2: #0f172a;
+      --panel: #111827;
+      --panel2: #182234;
+      --soft: #213049;
+      --line: #334155;
+      --text: #e5eefb;
+      --muted: #9fb2c8;
+      --teal: #14b8a6;
+      --teal2: #2dd4bf;
+      --green: #22c55e;
+      --gold: #f59e0b;
+      --red: #ef4444;
+      --white: #fff;
+      --shadow: 0 20px 60px rgba(0,0,0,.35);
+      --radius: 18px;
+      --radius-sm: 12px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, Arial, Helvetica, sans-serif;
+      background: linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      color: var(--text);
+      line-height: 1.55;
+    }
+    a { color: var(--teal2); }
+    .wrap { max-width: 1260px; margin: 0 auto; padding: 24px; }
+    .hero {
+      background:
+        radial-gradient(circle at top right, rgba(20,184,166,.16), transparent 28%),
+        radial-gradient(circle at top left, rgba(34,197,94,.10), transparent 32%),
+        linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.00));
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .topbar {
+      display:flex; justify-content:space-between; gap:12px; align-items:center; flex-wrap:wrap;
+      margin-bottom: 18px;
+    }
+    .brand { font-size: 1.3rem; font-weight: 900; letter-spacing:.2px; }
+    .pill {
+      display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px;
+      background: rgba(20,184,166,.12); color:#a7f3d0; border:1px solid rgba(45,212,191,.25);
+      font-size:.92rem; font-weight:700;
+    }
+    .hero-grid { display:grid; grid-template-columns: 1.15fr .85fr; gap:24px; padding: 8px 0 28px; }
+    h1 { font-size: clamp(2rem, 4vw, 3.5rem); line-height:1.06; margin:.15em 0 .2em; }
+    h2 { font-size: clamp(1.35rem, 2vw, 2rem); margin: 0 0 10px; }
+    h3 { font-size: 1.07rem; margin: 0 0 10px; }
+    p.lead { color: #d5e3f5; font-size:1.06rem; max-width: 800px; }
+    .muted { color: var(--muted); }
+    .hero-card, .card {
+      background: linear-gradient(180deg, rgba(255,255,255,.025), rgba(255,255,255,.01));
+      border: 1px solid rgba(255,255,255,.08); border-radius: var(--radius); padding: 18px;
+      box-shadow: var(--shadow);
+    }
+    .grid-2 { display:grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+    .grid-3 { display:grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+    .grid-4 { display:grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+    .section { padding: 30px 0; }
+    .btn-row { display:flex; gap:12px; flex-wrap:wrap; margin-top:18px; }
+    .btn {
+      border: 0; padding: 13px 18px; border-radius: 12px; cursor:pointer; font-weight:800;
+      text-decoration:none; display:inline-flex; align-items:center; justify-content:center;
+      min-height:46px; transition: transform .15s ease, opacity .2s ease, background .2s ease;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn-primary { background: var(--teal); color:#062b28; }
+    .btn-primary:hover { background: var(--teal2); }
+    .btn-secondary { background: transparent; color: var(--text); border:1px solid var(--line); }
+    .btn-soft { background: rgba(255,255,255,.06); color:var(--text); border:1px solid rgba(255,255,255,.08); }
+    .btn-danger { background: var(--red); color: white; }
+    .mini { font-size:.9rem; }
+    ul.clean { margin: 0; padding-left: 18px; }
+    .stats { display:grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 18px; }
+    .stat {
+      background: rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.08); border-radius: 16px; padding: 16px;
+    }
+    .stat strong { font-size: 1.25rem; display:block; margin-bottom: 4px; }
+    .step {
+      background: rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.07); border-radius: 16px; padding: 16px;
+      height:100%;
+    }
+    .step .num {
+      width:32px; height:32px; border-radius:999px; display:inline-flex; align-items:center; justify-content:center;
+      background: rgba(20,184,166,.18); color:#9ff7ea; font-weight:900; margin-bottom:10px;
+    }
+    .highlight { color: #d8fff8; }
+    .callout {
+      border-left: 4px solid var(--teal); padding: 12px 14px; background: rgba(20,184,166,.08); border-radius: 12px;
+    }
+    .warning {
+      border-left:4px solid var(--gold); padding: 12px 14px; background: rgba(245,158,11,.09); border-radius: 12px;
+    }
+    .danger {
+      border-left:4px solid var(--red); padding: 12px 14px; background: rgba(239,68,68,.08); border-radius:12px;
+    }
+    .tabs { display:flex; gap: 8px; flex-wrap:wrap; margin-bottom: 14px; }
+    .tab-btn {
+      border:1px solid var(--line); background: rgba(255,255,255,.04); color:var(--text); border-radius:999px;
+      padding:10px 14px; cursor:pointer; font-weight:800;
+    }
+    .tab-btn.active { background: rgba(20,184,166,.14); border-color: rgba(45,212,191,.35); color:#c6fff7; }
+    .tab-pane { display:none; }
+    .tab-pane.active { display:block; }
+    label { display:block; font-size:.92rem; font-weight:700; margin-bottom: 6px; }
+    input, select, textarea {
+      width:100%; border-radius: 12px; border:1px solid var(--line); background:#0b1220; color:var(--text);
+      padding: 12px 13px; font: inherit;
+    }
+    input::placeholder, textarea::placeholder { color: #7d92a9; }
+    textarea { min-height: 110px; resize: vertical; }
+    .field { margin-bottom: 14px; }
+    .fieldset {
+      border:1px solid rgba(255,255,255,.08); border-radius: 16px; padding: 16px; margin-bottom: 18px;
+      background: rgba(255,255,255,.025);
+    }
+    .fieldset legend { padding: 0 8px; color:#ccfbf1; font-weight:800; }
+    .check-grid { display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 10px 14px; }
+    .radio-list, .checkbox-list { display:grid; gap: 8px; }
+    .option {
+      display:flex; gap:10px; align-items:flex-start; padding: 10px 12px; border-radius: 12px;
+      background: rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.05);
+    }
+    .option input { width:auto; margin-top:3px; }
+    .dropzone {
+      border: 2px dashed rgba(45,212,191,.35); border-radius: 18px; padding: 20px; background: rgba(20,184,166,.06);
+      text-align:center;
+    }
+    .dropzone strong { display:block; font-size:1.05rem; margin-bottom: 8px; }
+    .small { font-size:.88rem; }
+    .inline-note {
+      display:inline-flex; gap:8px; align-items:center; padding: 8px 12px; border-radius: 999px;
+      background: rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.07); font-size:.88rem;
+    }
+    .items-list { display:grid; gap: 12px; margin-top: 12px; }
+    .item-card {
+      border:1px solid rgba(255,255,255,.08); border-radius:16px; background: rgba(255,255,255,.03); padding: 14px;
+    }
+    .badge {
+      display:inline-flex; align-items:center; gap:6px; padding: 6px 10px; border-radius:999px; font-size:.78rem; font-weight:800;
+      margin: 4px 6px 0 0;
+      border:1px solid rgba(255,255,255,.09); background: rgba(255,255,255,.04);
+    }
+    .badge.good { background: rgba(34,197,94,.12); color:#b8f7c8; border-color: rgba(34,197,94,.25); }
+    .badge.warn { background: rgba(245,158,11,.12); color:#f9d589; border-color: rgba(245,158,11,.25); }
+    .badge.bad { background: rgba(239,68,68,.12); color:#ffb8b8; border-color: rgba(239,68,68,.25); }
+    .two-col { display:grid; grid-template-columns: 1.1fr .9fr; gap: 20px; }
+    .output-box {
+      white-space: pre-wrap; background: #08101c; border:1px solid rgba(255,255,255,.08); border-radius: 16px;
+      padding: 16px; min-height: 220px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: .95rem;
+    }
+    .bureau-card {
+      background: rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.07); border-radius:16px; padding:14px;
+    }
+    .table-wrap { overflow:auto; }
+    table { width:100%; border-collapse: collapse; font-size:.95rem; }
+    th, td { border-bottom:1px solid rgba(255,255,255,.08); padding: 10px 8px; text-align:left; vertical-align:top; }
+    th { color:#d7fff7; }
+    .footer { padding: 30px 0 50px; color: var(--muted); }
+    .hide { display:none !important; }
+    @media (max-width: 980px) {
+      .hero-grid, .two-col, .grid-4, .grid-3, .grid-2, .stats { grid-template-columns: 1fr; }
+      .check-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="wrap">
+      <div class="topbar">
+        <div class="brand">Ownly Information</div>
+        <div class="pill">VIP Club member benefit • AI-assisted DIY credit action planner</div>
+      </div>
+      <div class="hero-grid">
+        <div>
+          <div class="inline-note">Built to feel like the smartest, fastest AI-assisted DIY credit report workflow on the planet — without the fake promises.</div>
+          <h1>Read the report. Break it down. Build the right next move.</h1>
+          <p class="lead">Ownly Information helps users understand a credit report in plain English, sort real opportunities from dead ends, generate customized letters, and download a packet that is ready to print, sign, copy, paste, or upload. It covers identity theft, inaccurate reporting, inquiry disputes, breach response, and non-deletion ways to improve credit.</p>
+          <div class="btn-row">
+            <a class="btn btn-primary" href="#builder">Start the packet builder</a>
+            <a class="btn btn-secondary" href="https://jointheclub.vip" target="_blank" rel="noopener">Not a member? Join at jointheclub.vip</a>
+          </div>
+          <div class="stats">
+            <div class="stat"><strong>3 bureaus</strong><span class="muted">Current bureau contact details are built into the output letters.</span></div>
+            <div class="stat"><strong>2 paths</strong><span class="muted">Full report review or inquiry-only workflow.</span></div>
+            <div class="stat"><strong>1 packet</strong><span class="muted">Download or copy/paste everything in one place.</span></div>
+          </div>
+        </div>
+        <aside class="hero-card">
+          <h3>Included with VIP Club membership</h3>
+          <p class="muted">If someone lands here without joining, send them to <a href="https://jointheclub.vip" target="_blank" rel="noopener">jointheclub.vip</a> for access to this system plus travel-related perks, savings at over 1 million retailers, and additional financial tools and benefits.</p>
+          <div class="callout small"><strong>Recommended 3-bureau source:</strong> SmartCredit is presented here as a convenience option for users who do not already have a current report. Users can also bring their own report. SmartCredit says consumers can get a 3-bureau credit report through its platform. citeturn920687search3turn920687search4</div>
+          <div class="warning small" style="margin-top:12px;"><strong>Truth matters.</strong> This system is for truthful, good-faith use. It is not built to remove accurate information just because it hurts. Consumers generally should dispute with both the credit reporting company and the furnisher when information is wrong. citeturn310818search12turn660389search7</div>
+        </aside>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="section">
+      <div class="grid-4">
+        <div class="step"><div class="num">1</div><h3>Upload or paste the report</h3><p class="muted">Use HTML or TXT exports for the smoothest import today. PDF auto-extraction is listed as the next upgrade.</p></div>
+        <div class="step"><div class="num">2</div><h3>Classify each item</h3><p class="muted">Separate identity theft, inquiry issues, likely inaccuracies, duplicates, mixed file problems, and accurate-but-harmful items.</p></div>
+        <div class="step"><div class="num">3</div><h3>Customize the voice</h3><p class="muted">The facts stay the same, but the letters can sound calm, direct, detailed, firm, or more personal.</p></div>
+        <div class="step"><div class="num">4</div><h3>Download the packet</h3><p class="muted">Generate bureau letters, furnisher letters, plain-English instructions, and a next-step plan. No email option. Just copy, paste, print, and go.</p></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="two-col">
+        <div class="card">
+          <h2>What makes this simpler and better</h2>
+          <ul class="clean muted">
+            <li><strong class="highlight">Website first:</strong> best for guided education, simple downloads, and a clean user flow.</li>
+            <li><strong class="highlight">HTML/TXT import now:</strong> easiest browser-based extraction without forcing a backend.</li>
+            <li><strong class="highlight">GPT-style extraction later:</strong> better for messy PDFs and screenshots, but that works best with a backend or dedicated assistant workflow.</li>
+            <li><strong class="highlight">Inquiry-only lane:</strong> users can skip the full report workflow if all they need is hard inquiry help.</li>
+            <li><strong class="highlight">Action planner:</strong> not every problem should trigger a deletion letter; the system suggests alternatives like utilization reduction, goodwill requests, balance cleanup, and waiting out aging timelines where appropriate.</li>
+          </ul>
+          <div class="callout" style="margin-top:14px;">Straight answer: <strong>HTML/TXT upload is the better website move right now.</strong> A custom GPT or backend-assisted parser becomes the better move for messy PDF extraction and deeper automated reading. So this build supports easy upload today and clearly labels <strong>“upload report → auto-extract tradelines → auto-fill the form → generate the packet”</strong> as the next upgrade.</div>
+        </div>
+        <div class="card">
+          <h2>Data breach? Here’s what that means.</h2>
+          <p class="muted">A breach notice usually means some of your personal information was exposed — maybe your password, SSN, date of birth, bank info, or other identifying data. It does <em>not</em> automatically mean identity theft already happened, but it does mean the risk just got louder.</p>
+          <ul class="clean muted">
+            <li>Find out exactly what data was exposed.</li>
+            <li>Freeze your credit if SSN or financial data was involved.</li>
+            <li>Watch your reports and accounts for new activity.</li>
+            <li>Use IdentityTheft.gov if someone is actually using your information.</li>
+          </ul>
+          <p class="muted">The FTC says a credit freeze is especially important if your SSN or other sensitive data was exposed, and directs consumers to IdentityTheft.gov/databreach for tailored next steps. citeturn310818search1turn310818search7turn310818search4</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="builder">
+      <div class="card">
+        <h2>Ownly Information packet builder</h2>
+        <p class="muted">This builder helps users understand the report, choose the right workflow, and generate letters and instructions in plain English. It does not promise deletions. It does build cleaner, more complete packets.</p>
+        <div class="tabs">
+          <button class="tab-btn active" data-tab="full">Full report review</button>
+          <button class="tab-btn" data-tab="inquiry">Inquiry-only</button>
+          <button class="tab-btn" data-tab="breach">Breach response</button>
+          <button class="tab-btn" data-tab="contacts">Bureau contacts</button>
+        </div>
+
+        <div class="tab-pane active" id="tab-full">
+          <form id="mainForm">
+            <div class="grid-2">
+              <div>
+                <fieldset class="fieldset">
+                  <legend>1) Upload or paste the report</legend>
+                  <div class="dropzone">
+                    <strong>Easy import for HTML or TXT credit report files</strong>
+                    <p class="muted small">Best current upload format: saved HTML or text export from your report provider. If you only have a PDF, paste the report text into the box below or use the manual item entry. <strong>Next upgrade:</strong> upload report → auto-extract tradelines → auto-fill the form → generate the packet.</p>
+                    <div class="field"><input type="file" id="reportFile" accept=".html,.htm,.txt,text/html,text/plain" /></div>
+                    <div class="btn-row" style="justify-content:center;">
+                      <button type="button" class="btn btn-soft mini" id="loadSample">Load demo report text</button>
+                      <button type="button" class="btn btn-soft mini" id="parseTextBtn">Parse pasted/imported text</button>
+                    </div>
+                  </div>
+                  <div class="field" style="margin-top:14px;">
+                    <label for="reportText">Paste report text here</label>
+                    <textarea id="reportText" placeholder="Paste the report text, exported HTML text, or account/inquiry sections here."></textarea>
+                  </div>
+                  <div class="small muted">Tip: for the cleanest import, save a web-based report page as HTML, then upload it here. Browser-only parsing is much happier with HTML than with ugly PDFs.</div>
+                </fieldset>
+
+                <fieldset class="fieldset">
+                  <legend>2) User details</legend>
+                  <div class="grid-2">
+                    <div class="field"><label for="fullName">Full name</label><input id="fullName" placeholder="Jane Example" /></div>
+                    <div class="field"><label for="emailDisplay">Email (for letter reference only)</label><input id="emailDisplay" placeholder="jane@example.com" /></div>
+                    <div class="field"><label for="address">Street address</label><input id="address" placeholder="123 Main St" /></div>
+                    <div class="field"><label for="cityStateZip">City, State ZIP</label><input id="cityStateZip" placeholder="Venice, FL 34293" /></div>
+                    <div class="field"><label for="phone">Phone</label><input id="phone" placeholder="941-555-1212" /></div>
+                    <div class="field"><label for="reportSource">Report source</label><select id="reportSource"><option>My own credit report</option><option>SmartCredit 3-bureau report</option><option>AnnualCreditReport.com reports</option><option>Other</option></select></div>
+                  </div>
+                </fieldset>
+              </div>
+
+              <div>
+                <fieldset class="fieldset">
+                  <legend>3) What best describes the issue?</legend>
+                  <div class="checkbox-list">
+                    <label class="option"><input type="checkbox" class="issueFlag" value="identity theft" /> <span><strong>Identity theft or fraud</strong><br><span class="muted small">Account or activity was not authorized by the consumer.</span></span></label>
+                    <label class="option"><input type="checkbox" class="issueFlag" value="incorrect reporting" /> <span><strong>Incorrect reporting</strong><br><span class="muted small">Wrong balance, wrong status, wrong late payment, wrong dates, or other inaccurate data.</span></span></label>
+                    <label class="option"><input type="checkbox" class="issueFlag" value="mixed file" /> <span><strong>Mixed file / not my information</strong><br><span class="muted small">Information belongs to someone else with a similar name or SSN issue.</span></span></label>
+                    <label class="option"><input type="checkbox" class="issueFlag" value="duplicate item" /> <span><strong>Duplicate item</strong><br><span class="muted small">The same debt or account appears more than once.</span></span></label>
+                    <label class="option"><input type="checkbox" class="issueFlag" value="hard inquiry" /> <span><strong>Hard inquiry problem</strong><br><span class="muted small">Unrecognized or unauthorized inquiry.</span></span></label>
+                    <label class="option"><input type="checkbox" class="issueFlag" value="accurate but hurting" /> <span><strong>Accurate but hurting the score</strong><br><span class="muted small">Not a dispute issue; needs strategy instead.</span></span></label>
+                  </div>
+                </fieldset>
+
+                <fieldset class="fieldset">
+                  <legend>4) Your communication style</legend>
+                  <div class="grid-2">
+                    <div class="field"><label for="styleTone">Communication style</label>
+                      <select id="styleTone">
+                        <option>Calm and professional</option>
+                        <option>Direct and assertive</option>
+                        <option>Warm and respectful</option>
+                        <option>Detailed and precise</option>
+                        <option>Strong and no-nonsense</option>
+                      </select>
+                    </div>
+                    <div class="field"><label for="styleFormal">How formal should it sound?</label>
+                      <select id="styleFormal">
+                        <option>Professional but natural</option>
+                        <option>Very formal</option>
+                        <option>Simple and conversational</option>
+                      </select>
+                    </div>
+                    <div class="field"><label for="styleDetail">How much detail?</label>
+                      <select id="styleDetail">
+                        <option>Balanced detail</option>
+                        <option>Just the essentials</option>
+                        <option>Full detail with explanation</option>
+                      </select>
+                    </div>
+                    <div class="field"><label for="styleStrength">How firm should it be?</label>
+                      <select id="styleStrength">
+                        <option>Firm but respectful</option>
+                        <option>Neutral and polite</option>
+                        <option>Strong and highly assertive</option>
+                      </select>
+                    </div>
+                    <div class="field"><label for="styleClosing">Closing tone</label>
+                      <select id="styleClosing">
+                        <option>Professional</option>
+                        <option>Courteous</option>
+                        <option>Urgent</option>
+                        <option>Calm and confident</option>
+                        <option>Firm</option>
+                      </select>
+                    </div>
+                    <div class="field"><label for="impactMode">Mention stress/inconvenience?</label>
+                      <select id="impactMode">
+                        <option>No, keep it factual</option>
+                        <option>Yes, briefly</option>
+                        <option>Yes, with some detail</option>
+                      </select>
+                    </div>
+                  </div>
+                </fieldset>
+              </div>
+            </div>
+
+            <fieldset class="fieldset">
+              <legend>5) Tradelines / inquiries to review</legend>
+              <div class="grid-2">
+                <div>
+                  <div class="field"><label for="creditorName">Creditor / furnisher / inquiry company</label><input id="creditorName" placeholder="ABC Bank or XYZ Auto Finance" /></div>
+                  <div class="field"><label for="accountNumber">Account or inquiry reference (partial is fine)</label><input id="accountNumber" placeholder="****1234" /></div>
+                  <div class="field"><label for="bureauShown">Which bureau(s) show it?</label><input id="bureauShown" placeholder="Experian, Equifax, TransUnion" /></div>
+                  <div class="field"><label for="itemType">Item type</label>
+                    <select id="itemType">
+                      <option>Account / tradeline</option>
+                      <option>Collection</option>
+                      <option>Hard inquiry</option>
+                      <option>Personal information</option>
+                      <option>Public record</option>
+                    </select>
+                  </div>
+                </div>
+                <div>
+                  <div class="field"><label for="reportedProblem">What appears wrong or harmful?</label>
+                    <select id="reportedProblem">
+                      <option>Identity theft / not mine</option>
+                      <option>Unauthorized hard inquiry</option>
+                      <option>Wrong balance</option>
+                      <option>Wrong late payment / delinquency</option>
+                      <option>Wrong status</option>
+                      <option>Duplicate reporting</option>
+                      <option>Old address / mixed file</option>
+                      <option>Accurate but hurting score</option>
+                      <option>Other</option>
+                    </select>
+                  </div>
+                  <div class="field"><label for="itemFacts">Plain-English notes</label><textarea id="itemFacts" placeholder="What happened? Why do you believe it is wrong, unauthorized, duplicated, outdated, or otherwise problematic?"></textarea></div>
+                  <div class="field"><label for="itemGoal">What outcome do you want?</label>
+                    <select id="itemGoal">
+                      <option>Remove / block</option>
+                      <option>Correct / update</option>
+                      <option>Delete unauthorized inquiry</option>
+                      <option>Review for alternatives</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="btn-row">
+                <button type="button" class="btn btn-primary" id="addItemBtn">Add item to analysis list</button>
+                <button type="button" class="btn btn-secondary" id="clearItemsBtn">Clear all items</button>
+              </div>
+              <div id="itemsList" class="items-list"></div>
+            </fieldset>
+
+            <div class="btn-row">
+              <button type="button" class="btn btn-primary" id="generateBtn">Generate analysis + packet</button>
+              <button type="button" class="btn btn-secondary" id="copyPacketBtn">Copy packet</button>
+              <button type="button" class="btn btn-secondary" id="downloadPacketBtn">Download packet (.txt)</button>
+              <button type="button" class="btn btn-secondary" onclick="window.print()">Print</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="tab-pane" id="tab-inquiry">
+          <div class="card" style="margin-top:10px; padding:0; background:transparent; border:0; box-shadow:none;">
+            <div class="two-col">
+              <div class="bureau-card">
+                <h3>Inquiry-only fast lane</h3>
+                <p class="muted">If a user only needs inquiry help, do not force them through the whole site. The simpler path is: identify the lender, verify whether the inquiry was authorized, contact the lender first, then dispute with the bureau(s) if needed.</p>
+                <ul class="clean muted">
+                  <li>TransUnion says to contact the lender that placed the inquiry and ask why it appears; if it was made in error, ask the company to send a deletion request directly to the bureau. If it was fraudulent, use FTC documentation when disputing it. citeturn660389search5turn660389search9turn660389search21</li>
+                  <li>Equifax says a recommended first step when you do not recognize an inquiry is to contact the company that requested the report. citeturn660389search6</li>
+                  <li>Experian says hard inquiries can be disputed when they are inaccurately reported. citeturn660389search4turn660389search8</li>
+                </ul>
+                <div class="warning small">Reality check: authorized hard inquiries usually stay up to 2 years, though their score impact is often shorter. Removing legitimate inquiries just because they are annoying is not the move. citeturn660389search12</div>
+              </div>
+              <div class="bureau-card">
+                <h3>Inquiry letter ingredients</h3>
+                <ul class="clean muted">
+                  <li>Name of company that pulled the inquiry</li>
+                  <li>Date of inquiry as shown on the report</li>
+                  <li>Reason you believe it was unauthorized or incorrect</li>
+                  <li>Request for deletion or correction</li>
+                  <li>Copy of report with inquiry circled</li>
+                  <li>Identity theft report if fraud is involved</li>
+                </ul>
+                <p class="muted">The packet builder below automatically creates inquiry language when you classify an item as an unauthorized hard inquiry.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-pane" id="tab-breach">
+          <div class="grid-2" style="margin-top:12px;">
+            <div class="bureau-card">
+              <h3>What a breach notice means</h3>
+              <p class="muted">A breach notice means some company is telling you that information tied to you may have been exposed. That can include passwords, account numbers, SSN, date of birth, address, driver’s license, insurance info, or other personal data. It is a warning light, not automatic proof that thieves already opened accounts.</p>
+            </div>
+            <div class="bureau-card">
+              <h3>What to do next</h3>
+              <ol class="clean muted">
+                <li>Read the notice and identify exactly what data was exposed.</li>
+                <li>Freeze your credit if SSN or other sensitive identity data was exposed.</li>
+                <li>Change passwords and turn on multi-factor authentication where relevant.</li>
+                <li>Watch your reports and accounts for unauthorized activity.</li>
+                <li>If fraud actually happened, go to IdentityTheft.gov and then dispute the affected items.</li>
+              </ol>
+              <p class="muted">FTC and CFPB guidance points consumers to freezes, fraud alerts, report monitoring, and IdentityTheft.gov as the core response tools. citeturn310818search1turn310818search0turn310818search16</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-pane" id="tab-contacts">
+          <div class="grid-3" style="margin-top:12px;">
+            <div class="bureau-card">
+              <h3>Experian</h3>
+              <p class="small muted">Dispute by mail:<br><strong>Experian<br>P.O. Box 4500<br>Allen, TX 75013</strong></p>
+              <p class="small muted">Identity theft/disputes support phone: <strong>1-888-397-3742</strong></p>
+              <p class="small muted">Mail and phone details are published by Experian and reflected in recent Experian identity-theft guidance. citeturn920687search0turn920687search12turn920687search16</p>
+            </div>
+            <div class="bureau-card">
+              <h3>Equifax</h3>
+              <p class="small muted">Dispute by mail:<br><strong>Equifax Information Services LLC<br>P.O. Box 740256<br>Atlanta, GA 30374-0256</strong></p>
+              <p class="small muted">Fraud / support phone: <strong>1-888-378-4329</strong></p>
+              <p class="small muted">Equifax’s dispute and fraud-help pages provide mail-in dispute support and phone contact options. citeturn920687search1turn920687search9turn920687search25turn920687search16</p>
+            </div>
+            <div class="bureau-card">
+              <h3>TransUnion</h3>
+              <p class="small muted">Dispute by mail:<br><strong>TransUnion Consumer Solutions<br>P.O. Box 2000<br>Chester, PA 19016-2000</strong></p>
+              <p class="small muted">Service center / disputes phone: <strong>1-800-916-8800</strong></p>
+              <p class="small muted">TransUnion publishes this dispute-by-mail address and support number on its dispute and support pages. citeturn920687search2turn920687search22turn920687search14</p>
+            </div>
+          </div>
+          <div class="bureau-card" style="margin-top:16px;">
+            <h3>Free weekly reports</h3>
+            <p class="muted">The CFPB says you can review your credit reports online for free once a week from each of the three nationwide credit reporting companies through AnnualCreditReport.com. citeturn920687search3</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="grid-2">
+        <div class="card">
+          <h2>How the analysis works</h2>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>Issue type</th><th>Likely move</th><th>What the system suggests</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Identity theft / fraud</td><td>605B-style fraud block + furnisher notice</td><td>Use identity theft documentation, freeze, fraud alert, and supporting evidence.</td></tr>
+                <tr><td>Unauthorized hard inquiry</td><td>Lender first, bureau next</td><td>Ask the inquirer to explain or correct it; dispute with bureaus if unauthorized or unsupported.</td></tr>
+                <tr><td>Wrong balance / wrong status / wrong late payment</td><td>Standard dispute</td><td>Point to the exact inaccurate field and include supporting documentation.</td></tr>
+                <tr><td>Duplicate item</td><td>Dispute duplicate reporting</td><td>Identify both entries and explain they appear to represent the same debt or account.</td></tr>
+                <tr><td>Mixed file / old address / not my employer</td><td>Personal info correction</td><td>Request deletion or update of inaccurate identifying information.</td></tr>
+                <tr><td>Accurate but hurting score</td><td>Alternative improvement strategy</td><td>Paydown, utilization fixes, autopay, goodwill try, age the file, stop new applications.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="muted" style="margin-top:12px;">CFPB guidance says errors are generally fixed by contacting both the reporting company and the company that supplied the information. FTC sample letters recommend clearly identifying each disputed item and attaching supporting documents. citeturn310818search12turn310818search9turn310818search6</p>
+        </div>
+        <div class="card">
+          <h2>Important disclaimers</h2>
+          <div class="danger small">
+            <strong>Educational and document-preparation tool only.</strong> Not a law firm. Not legal advice. No deletions, score increases, approvals, or timing outcomes are guaranteed. This tool is for truthful, good-faith use. It is not designed to erase accurate, current, and verifiable negative information.
+          </div>
+          <div class="warning small" style="margin-top:12px;">
+            <strong>Identity theft path:</strong> If the problem is actually identity theft, the user should use IdentityTheft.gov and gather the documents needed for the fraud-block path. Regulation V and FCRA Section 605B govern that lane. citeturn310818search0turn920687search6turn920687search18</div>
+          <div class="callout small" style="margin-top:12px;">
+            <strong>Marketing guardrail:</strong> this site can say it is fast, smart, and AI-assisted, but it should not promise guaranteed removals, guaranteed “4-day deletions,” or “delete anything negative.”</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="grid-2">
+        <div class="card">
+          <h2>Analysis output</h2>
+          <div id="analysisOutput" class="output-box">Generate the packet to see the analysis here.</div>
+          <div class="btn-row">
+            <button type="button" class="btn btn-secondary" id="copyAnalysisBtn">Copy analysis</button>
+          </div>
+        </div>
+        <div class="card">
+          <h2>Packet output</h2>
+          <div id="packetOutput" class="output-box">Your bureau letter, furnisher letter, inquiry letter, and step-by-step instructions will appear here.</div>
+          <div class="btn-row">
+            <button type="button" class="btn btn-secondary" id="copyPacketBtn2">Copy packet</button>
+            <button type="button" class="btn btn-secondary" id="downloadPacketBtn2">Download packet (.txt)</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer wrap">
+    <p>This free DIY system is for educational and document-preparation purposes only. Users may bring their own report or use a recommended 3-bureau source. Access is included with VIP Club membership. If someone found this page without joining, send them to <a href="https://jointheclub.vip" target="_blank" rel="noopener">jointheclub.vip</a>.</p>
+  </footer>
+
+  <script>
+    const bureaus = {
+      Experian: {
+        address: "Experian\nP.O. Box 4500\nAllen, TX 75013",
+        phone: "1-888-397-3742"
+      },
+      Equifax: {
+        address: "Equifax Information Services LLC\nP.O. Box 740256\nAtlanta, GA 30374-0256",
+        phone: "1-888-378-4329"
+      },
+      TransUnion: {
+        address: "TransUnion Consumer Solutions\nP.O. Box 2000\nChester, PA 19016-2000",
+        phone: "1-800-916-8800"
+      }
+    };
+
+    let items = [];
+
+    const reportFile = document.getElementById('reportFile');
+    const reportText = document.getElementById('reportText');
+    const itemsList = document.getElementById('itemsList');
+    const analysisOutput = document.getElementById('analysisOutput');
+    const packetOutput = document.getElementById('packetOutput');
+
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+      });
+    });
+
+    reportFile.addEventListener('change', async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const text = await file.text();
+      const normalized = file.name.match(/\.html?$/i) ? stripHtml(text) : text;
+      reportText.value = normalized;
+    });
+
+    document.getElementById('loadSample').addEventListener('click', () => {
+      reportText.value = `Experian\nABC BANK VISA ****1234 Opened 05/2024 Balance $1,842 Past Due 30 Days\nXYZ AUTO FINANCE ****7788 Charge-off $7,450\nHard Inquiries\nQUICKCASH CAPITAL 01/18/2026\nMEGABANK CARD SERVICES 02/02/2026\nPersonal Information\nPrevious address: 44 Old Pine St\n\nTransUnion\nABC BANK VISA ****1234 Balance $1,642 Current\nCollection: MED RECOVERY SVCS ****9901 $428\nInquiry: QUICKCASH CAPITAL 01/18/2026`;
+    });
+
+    document.getElementById('parseTextBtn').addEventListener('click', parseReportText);
+
+    function stripHtml(html) {
+      const doc = new DOMParser().parseFromString(html, 'text/html');
+      return (doc.body.innerText || '').replace(/\u00a0/g, ' ').replace(/\n{3,}/g, '\n\n').trim();
+    }
+
+    function parseReportText() {
+      const text = reportText.value.trim();
+      if (!text) return alert('Paste or upload report text first.');
+      const found = smartParse(text);
+      if (!found.length) return alert('No clear items were parsed. You can still add items manually.');
+      items = found;
+      renderItems();
+      alert(`Imported ${found.length} item(s). Review them and then generate the packet.`);
+    }
+
+    function smartParse(text) {
+      const lines = text.split(/\n+/).map(s => s.trim()).filter(Boolean);
+      const parsed = [];
+      let currentBureau = '';
+      let inquiryMode = false;
+      for (const line of lines) {
+        if (/experian|equifax|transunion/i.test(line)) currentBureau = line.match(/experian|equifax|transunion/i)[0];
+        if (/hard inquiries|inquiries|inquiry/i.test(line)) inquiryMode = true;
+        if (/personal information/i.test(line)) inquiryMode = false;
+
+        if (inquiryMode && /\d{2}\/\d{2}\/\d{4}|\d{2}\/\d{4}/.test(line)) {
+          const name = line.replace(/\d{2}\/\d{2}\/\d{4}|\d{2}\/\d{4}.*/, '').trim();
+          parsed.push({
+            creditor: name || 'Unknown inquiry company',
+            account: '',
+            bureau: currentBureau || 'Unknown bureau',
+            type: 'Hard inquiry',
+            problem: 'Unauthorized hard inquiry',
+            facts: 'Imported from uploaded/pasted report text. Review and edit if needed.',
+            goal: 'Delete unauthorized inquiry'
+          });
+          continue;
+        }
+
+        if (/\*{2,}\d{2,4}|account|balance|charge-off|collection|past due|late/i.test(line) && !/inquiry/i.test(line)) {
+          const accountMatch = line.match(/(\*{2,}\d{2,4}|x{2,}\d{2,4}|\d{4,})/i);
+          const creditor = line.split(accountMatch ? accountMatch[0] : 'Balance')[0].replace(/^(collection:|acct:|account:)/i, '').trim();
+          parsed.push({
+            creditor: creditor || 'Unknown furnisher',
+            account: accountMatch ? accountMatch[0] : '',
+            bureau: currentBureau || 'Unknown bureau',
+            type: /collection/i.test(line) ? 'Collection' : 'Account / tradeline',
+            problem: /charge-off|past due|late|collection/i.test(line) ? 'Other' : 'Other',
+            facts: `Imported from report text: ${line}`,
+            goal: 'Review for alternatives'
+          });
+        }
+
+        if (/previous address|old address|former address/i.test(line)) {
+          parsed.push({
+            creditor: 'Personal Information',
+            account: '',
+            bureau: currentBureau || 'Unknown bureau',
+            type: 'Personal information',
+            problem: 'Old address / mixed file',
+            facts: `Imported from report text: ${line}`,
+            goal: 'Correct / update'
+          });
+        }
+      }
+      return parsed.slice(0, 25);
+    }
+
+    document.getElementById('addItemBtn').addEventListener('click', () => {
+      const item = {
+        creditor: valueOf('creditorName'),
+        account: valueOf('accountNumber'),
+        bureau: valueOf('bureauShown'),
+        type: valueOf('itemType'),
+        problem: valueOf('reportedProblem'),
+        facts: valueOf('itemFacts'),
+        goal: valueOf('itemGoal')
+      };
+      if (!item.creditor && !item.facts) return alert('Add at least a creditor name or some notes first.');
+      items.push(item);
+      renderItems();
+      ['creditorName','accountNumber','bureauShown','itemFacts'].forEach(id => document.getElementById(id).value = '');
+      document.getElementById('itemType').selectedIndex = 0;
+      document.getElementById('reportedProblem').selectedIndex = 0;
+      document.getElementById('itemGoal').selectedIndex = 0;
+    });
+
+    document.getElementById('clearItemsBtn').addEventListener('click', () => {
+      if (!confirm('Clear all items?')) return;
+      items = [];
+      renderItems();
+    });
+
+    function renderItems() {
+      if (!items.length) {
+        itemsList.innerHTML = '<div class="muted">No items added yet.</div>';
+        return;
+      }
+      itemsList.innerHTML = items.map((item, idx) => {
+        const recommendation = classifyItem(item).primary;
+        const badgeClass = recommendation.includes('Alternative') ? 'warn' : recommendation.includes('Identity') || recommendation.includes('Fraud') ? 'bad' : 'good';
+        return `
+          <div class="item-card">
+            <div style="display:flex; justify-content:space-between; gap:12px; align-items:flex-start;">
+              <div>
+                <strong>${escapeHtml(item.creditor || 'Unnamed item')}</strong>
+                <div class="muted small">${escapeHtml(item.type || '')} ${item.account ? '• ' + escapeHtml(item.account) : ''} ${item.bureau ? '• ' + escapeHtml(item.bureau) : ''}</div>
+                <div class="badge ${badgeClass}">${escapeHtml(recommendation)}</div>
+                <div class="badge">Goal: ${escapeHtml(item.goal || 'Review')}</div>
+              </div>
+              <button type="button" class="btn btn-soft mini" onclick="removeItem(${idx})">Remove</button>
+            </div>
+            <div class="muted small" style="margin-top:10px;">${escapeHtml(item.facts || '')}</div>
+          </div>`;
+      }).join('');
+    }
+
+    window.removeItem = function(idx) {
+      items.splice(idx, 1);
+      renderItems();
+    }
+
+    function classifyItem(item) {
+      const p = (item.problem || '').toLowerCase();
+      const t = (item.type || '').toLowerCase();
+      const facts = (item.facts || '').toLowerCase();
+      if (p.includes('identity') || facts.includes('not mine') || facts.includes('identity theft')) {
+        return {
+          primary: 'Identity theft / fraud path',
+          suggestion: 'Use IdentityTheft.gov, freeze credit, and prepare fraud-block / furnisher notices with supporting documentation.'
+        };
+      }
+      if (p.includes('unauthorized hard inquiry') || t.includes('hard inquiry') || p.includes('hard inquiry')) {
+        return {
+          primary: 'Inquiry dispute path',
+          suggestion: 'Contact the lender that placed the inquiry first. If unauthorized or unsupported, dispute it with each bureau that reports it.'
+        };
+      }
+      if (p.includes('wrong') || p.includes('duplicate') || p.includes('mixed') || p.includes('old address')) {
+        return {
+          primary: 'Standard dispute path',
+          suggestion: 'Point to the exact inaccurate field, include proof, and dispute with the bureau and the furnisher.'
+        };
+      }
+      if (p.includes('accurate but hurting') || facts.includes('accurate') || item.goal === 'Review for alternatives') {
+        return {
+          primary: 'Alternative improvement path',
+          suggestion: 'Focus on utilization, balances, payment history, goodwill attempts, and fewer new applications rather than deletion.'
+        };
+      }
+      return {
+        primary: 'Review and dispute if inaccurate',
+        suggestion: 'Clarify exactly what is wrong, then target the specific field or furnishers involved.'
+      };
+    }
+
+    function styleProfile() {
+      return {
+        tone: valueOf('styleTone'),
+        formal: valueOf('styleFormal'),
+        detail: valueOf('styleDetail'),
+        strength: valueOf('styleStrength'),
+        closing: valueOf('styleClosing'),
+        impact: valueOf('impactMode')
+      };
+    }
+
+    function introSentence() {
+      const tone = valueOf('styleTone');
+      if (tone === 'Direct and assertive') return 'I am writing to request prompt action regarding the information identified below.';
+      if (tone === 'Warm and respectful') return 'Thank you for your attention to this matter. I am requesting your assistance with the information identified below.';
+      if (tone === 'Detailed and precise') return 'For clarity and efficient review, I have identified the specific information at issue below and summarized the basis for my request.';
+      if (tone === 'Strong and no-nonsense') return 'The information identified below requires review and action based on the facts and documentation provided.';
+      return 'I am writing to request review and correction of the information identified below.';
+    }
+
+    function closingSentence() {
+      const c = valueOf('styleClosing');
+      if (c === 'Urgent') return 'Please address this matter promptly and provide written confirmation of the actions taken.';
+      if (c === 'Firm') return 'I expect this matter to be handled in accordance with applicable law and confirmed in writing.';
+      if (c === 'Courteous') return 'Thank you for your time and consideration. Please confirm the actions taken in writing.';
+      if (c === 'Calm and confident') return 'I appreciate your review and look forward to written confirmation once this matter has been addressed.';
+      return 'Please review this matter and send written confirmation of the actions taken.';
+    }
+
+    function buildAnalysis() {
+      if (!items.length) return 'No items have been added yet. Upload or paste a report, parse it, or add items manually.';
+      const lines = [];
+      lines.push('OWNLY INFORMATION — CREDIT REPORT ANALYSIS');
+      lines.push('');
+      lines.push(`Consumer: ${valueOf('fullName') || 'Not provided'}`);
+      lines.push(`Report source: ${valueOf('reportSource')}`);
+      lines.push(`Communication style: ${valueOf('styleTone')} / ${valueOf('styleFormal')} / ${valueOf('styleStrength')}`);
+      lines.push('');
+      items.forEach((item, i) => {
+        const c = classifyItem(item);
+        lines.push(`${i + 1}. ${item.creditor || 'Unnamed item'} ${item.account ? '(' + item.account + ')' : ''}`);
+        lines.push(`   Type: ${item.type || 'Unspecified'}`);
+        lines.push(`   Reported on: ${item.bureau || 'Not specified'}`);
+        lines.push(`   Problem type: ${item.problem || 'Not specified'}`);
+        lines.push(`   Best lane: ${c.primary}`);
+        lines.push(`   Suggested move: ${c.suggestion}`);
+        lines.push(`   Notes: ${item.facts || 'None provided'}`);
+        const alt = alternativeAdvice(item);
+        if (alt) lines.push(`   Alternative / backup strategy: ${alt}`);
+        lines.push('');
+      });
+      lines.push('Plain-English read on score improvement:');
+      lines.push('- If an item is truly inaccurate or unauthorized, dispute it with the bureau and the furnisher.');
+      lines.push('- If an item is accurate but ugly, use strategy instead: lower revolving balances, keep utilization down, avoid new hard pulls, bring past-due accounts current, and consider a goodwill request when facts support it.');
+      lines.push('- Unrecognized hard inquiries deserve lender-first review, then bureau disputes if unsupported or fraudulent.');
+      lines.push('');
+      lines.push('This analysis is educational and document-prep only. It is not legal advice and does not guarantee removals or score changes.');
+      return lines.join('\n');
+    }
+
+    function alternativeAdvice(item) {
+      const p = (item.problem || '').toLowerCase();
+      if (p.includes('accurate but hurting')) return 'Do not waste time trying to force-delete accurate information. Attack utilization, autopay, payment consistency, and aging. Consider a goodwill request only if the history and relationship support it.';
+      if ((item.type || '').toLowerCase().includes('account') && /balance|past due|charge-off|late/i.test(item.facts || '')) return 'If the account is yours and the data is accurate, prioritize balance reduction, settlement strategy, or current-payment stabilization rather than deletion language.';
+      if ((item.type || '').toLowerCase().includes('hard inquiry')) return 'The backup play is to stop applying for new credit and let legitimate inquiries age; their score impact generally fades before they disappear from the report.';
+      return '';
+    }
+
+    function buildPacket() {
+      const name = valueOf('fullName') || '[Full Name]';
+      const address = valueOf('address') || '[Street Address]';
+      const cityStateZip = valueOf('cityStateZip') || '[City, State ZIP]';
+      const phone = valueOf('phone') || '[Phone]';
+      const email = valueOf('emailDisplay') || '[Email]';
+      const today = new Date().toLocaleDateString();
+      const intro = introSentence();
+      const close = closingSentence();
+      const issueFlags = [...document.querySelectorAll('.issueFlag:checked')].map(el => el.value);
+
+      const disputeRows = items.map((item, i) => {
+        return `${i + 1}. Creditor / Furnisher: ${item.creditor || '[Name]'}\n   Account / Ref: ${item.account || '[Reference]'}\n   Bureau(s): ${item.bureau || '[Bureaus]'}\n   Item Type: ${item.type || '[Type]'}\n   Issue: ${item.problem || '[Issue]'}\n   Facts: ${item.facts || '[Facts]'}`;
+      }).join('\n\n');
+
+      const bureauLetter = Object.entries(bureaus).map(([bureau, info]) => {
+        return `${today}\n\n${name}\n${address}\n${cityStateZip}\nPhone: ${phone}\nEmail: ${email}\n\nVia Certified Mail\n${info.address}\nPhone: ${info.phone}\n\nRe: Credit Report Review / Dispute Request\n\nDear ${bureau},\n\n${intro}\n\nI am requesting review of the following item(s) on my ${bureau} credit report. Please investigate the information identified below, correct or remove any inaccurate information, and send me written confirmation of the results. If any item is the result of identity theft or unauthorized activity, please treat it accordingly based on the documentation provided.\n\n${disputeRows}\n\n${valueOf('impactMode') === 'Yes, briefly' ? 'This matter has caused unnecessary stress and inconvenience, and I would appreciate prompt review.\n\n' : ''}${valueOf('impactMode') === 'Yes, with some detail' ? 'This issue has caused stress, confusion, and unnecessary inconvenience, and it is important that the affected information be reviewed carefully and corrected as needed.\n\n' : ''}Enclosures may include: copy of report with items marked, proof of identity, proof of address, supporting account records, and identity theft documentation where applicable.\n\n${close}\n\nSincerely,\n\n${name}`;
+      }).join('\n\n------------------------------------------------------------\n\n');
+
+      const furnisherItems = items.filter(item => (item.type || '').toLowerCase() !== 'personal information');
+      const furnisherLetter = furnisherItems.length ? `${today}\n\n${name}\n${address}\n${cityStateZip}\nPhone: ${phone}\nEmail: ${email}\n\n[Creditor / Furnisher Address]\n\nRe: Request to Investigate and Correct Reported Information\n\nDear Creditor / Furnisher,\n\n${intro}\n\nI am writing regarding the information your company has reported or caused to be reported on my credit file. I request that you investigate the item(s) below, correct any inaccurate information, and update each credit reporting company to which you furnished the information.\n\n${disputeRows}\n\nIf any inquiry or account was unauthorized, please investigate that activity, provide written confirmation of the results, and notify the applicable credit reporting companies if correction or deletion is warranted.\n\n${close}\n\nSincerely,\n\n${name}` : 'No furnisher letter created because no eligible items were added.';
+
+      const inquiryItems = items.filter(item => ((item.type || '').toLowerCase().includes('hard inquiry') || (item.problem || '').toLowerCase().includes('hard inquiry') || (item.problem || '').toLowerCase().includes('unauthorized')));
+      const inquiryLetter = inquiryItems.length ? `${today}\n\n${name}\n${address}\n${cityStateZip}\nPhone: ${phone}\nEmail: ${email}\n\n[Inquiry Company Address]\n\nRe: Unauthorized or Unrecognized Credit Inquiry\n\nDear Sir or Madam,\n\nI am contacting you regarding the credit inquiry or inquiries listed below that I do not recognize, do not believe I authorized, or need clarified:\n\n${inquiryItems.map((item, i) => `${i + 1}. ${item.creditor || '[Inquiry Company]'} ${item.account ? '- Ref: ' + item.account : ''} ${item.bureau ? '- Bureau(s): ' + item.bureau : ''}\n   Notes: ${item.facts || '[Notes]'}`).join('\n\n')}\n\nPlease confirm the basis for each inquiry. If any inquiry was made in error or without authorization, please notify the appropriate credit reporting companies and request deletion of the inquiry.\n\n${close}\n\nSincerely,\n\n${name}` : 'No separate inquiry letter created because no inquiry-related items were added.';
+
+      const steps = `PLAIN-ENGLISH STEP-BY-STEP INSTRUCTIONS\n\n1. Review the analysis section first. The smartest move depends on whether an item is fraudulent, inaccurate, duplicated, mixed, or simply accurate-but-harmful.\n2. Print or save a copy of your credit report and mark the specific items you are challenging.\n3. If identity theft is involved, go to IdentityTheft.gov, follow the recovery steps, and consider freezing your credit.\n4. Send dispute letters to the credit bureau(s) reporting the item and to the furnisher that supplied the information when appropriate. CFPB guidance says both may need to be contacted.\n5. For inquiry-only issues, contact the lender that placed the inquiry first. If the lender confirms error or cannot support it, dispute the inquiry with each bureau showing it.\n6. Keep copies of everything. Use certified mail when mailing paper disputes.\n7. If an item is accurate but hurting the score, use the alternative strategy suggestions instead of forcing a weak deletion argument.\n8. If a company refuses to fix an item after you have disputed it, consider a complaint through the CFPB complaint process.\n\nCURRENT BUREAU CONTACTS\n\nExperian\n${bureaus.Experian.address}\nPhone: ${bureaus.Experian.phone}\n\nEquifax\n${bureaus.Equifax.address}\nPhone: ${bureaus.Equifax.phone}\n\nTransUnion\n${bureaus.TransUnion.address}\nPhone: ${bureaus.TransUnion.phone}\n\nDISCLAIMERS\n\nThis packet is educational and document-preparation assistance only. It is not legal advice. No deletion, score increase, funding, or timing result is guaranteed. Use this packet only for truthful, good-faith matters. Do not use fraud language for accounts or inquiries you actually authorized.`;
+
+      return `OWNLY INFORMATION — ACTION PACKET\n\nIssue flags selected: ${issueFlags.length ? issueFlags.join(', ') : 'None selected'}\n\n================ BUREAU LETTERS ================\n\n${bureauLetter}\n\n================ FURNISHER LETTER ================\n\n${furnisherLetter}\n\n================ INQUIRY LETTER ================\n\n${inquiryLetter}\n\n================ STEP-BY-STEP INSTRUCTIONS ================\n\n${steps}`;
+    }
+
+    document.getElementById('generateBtn').addEventListener('click', () => {
+      analysisOutput.textContent = buildAnalysis();
+      packetOutput.textContent = buildPacket();
+      window.scrollTo({ top: analysisOutput.getBoundingClientRect().top + window.scrollY - 80, behavior: 'smooth' });
+    });
+
+    function copyText(text) {
+      navigator.clipboard.writeText(text).then(() => alert('Copied to clipboard.'));
+    }
+    function downloadText(filename, text) {
+      const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    ['copyPacketBtn','copyPacketBtn2'].forEach(id => document.getElementById(id).addEventListener('click', () => copyText(packetOutput.textContent)));
+    ['downloadPacketBtn','downloadPacketBtn2'].forEach(id => document.getElementById(id).addEventListener('click', () => downloadText('ownly-information-packet.txt', packetOutput.textContent)));
+    document.getElementById('copyAnalysisBtn').addEventListener('click', () => copyText(analysisOutput.textContent));
+
+    function valueOf(id) { return document.getElementById(id).value.trim(); }
+    function escapeHtml(str) {
+      return (str || '').replace(/[&<>"']/g, s => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[s]));
+    }
+
+    renderItems();
+  </script>
+</body>
+</html>
